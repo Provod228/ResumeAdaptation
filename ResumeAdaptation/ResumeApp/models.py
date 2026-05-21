@@ -4,12 +4,12 @@ from django.db import models
 
 
 class Resume(models.Model):
-    user = models.ForeignKey(
-        'UserApp.User',
-        on_delete=models.CASCADE,
-        related_name='resumes',
-        verbose_name="Пользователь"
-    )
+    # user = models.ForeignKey(
+    #     'UserApp.User',
+    #     on_delete=models.CASCADE,
+    #     related_name='resumes',
+    #     verbose_name="Пользователь"
+    # )
     title = models.CharField(
         max_length=255,
         default="Мое резюме",
@@ -40,7 +40,8 @@ class Resume(models.Model):
     )
 
     def __str__(self):
-        return f"{self.title} ({self.user.username if hasattr(self.user, 'username') else self.user_id})"
+        # Временно убираем упоминание self.user, пока нет пользователей
+        return self.title
 
     class Meta:
         verbose_name = "Обычное резюме"
@@ -95,6 +96,19 @@ class ResumeAdaptation(models.Model):
         ('failed', 'Ошибка'),
     ]
 
+    LANGUAGE_CHOICES = [
+        ('ru', 'Русский'),
+        ('en', 'Английский'),
+    ]
+
+    language = models.CharField(
+        max_length=2,
+        choices=LANGUAGE_CHOICES,
+        default='ru',
+        verbose_name="Язык вывода",
+        help_text="Язык, на котором будет составлено адаптированное резюме"
+    )
+
     resume = models.ForeignKey(
         'Resume',
         on_delete=models.CASCADE,
@@ -147,7 +161,7 @@ class ResumeAdaptation(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return f"Адаптация для {self.resume.user} -> {self.vacancy.title}"
+        return f"Адаптация для {self.vacancy.title}"
 
     class Meta:
         verbose_name = "Адаптированное резюме"

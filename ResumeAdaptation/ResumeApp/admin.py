@@ -4,14 +4,14 @@ from .models import Resume, Vacancy, ResumeAdaptation
 
 @admin.register(Resume)
 class ResumeAdmin(admin.ModelAdmin):
-    list_display = ('title', 'user', 'created_at', 'updated_at')
+    list_display = ('title', 'created_at', 'updated_at')
     list_display_links = ('title',)
     list_filter = ('created_at', 'updated_at')
-    search_fields = ('title', 'user__username', 'user__email', 'text')
+    search_fields = ('title', 'text')
     readonly_fields = ('created_at', 'updated_at')
 
     # Чтобы навыки (JSONField) красиво отображались структурой в форме редактирования
-    fields = ('user', 'title', 'text', 'parsed_skills', 'created_at', 'updated_at')
+    fields = ('title', 'text', 'parsed_skills', 'created_at', 'updated_at')
 
 
 @admin.register(Vacancy)
