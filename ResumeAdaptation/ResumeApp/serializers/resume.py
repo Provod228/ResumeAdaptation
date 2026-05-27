@@ -45,3 +45,38 @@ class ResumeAdaptationResponseSerializer(serializers.ModelSerializer):
             'changes_log',
             'created_at'
         ]
+
+
+class ResumeSerializer(serializers.ModelSerializer):
+    """Сериализатор для модели Resume"""
+
+    class Meta:
+        model = Resume
+        fields = [
+            'id',
+            'title',
+            'text',
+            'parsed_skills',
+            'created_at',
+            'updated_at'
+        ]
+        read_only_fields = ['id', 'created_at', 'updated_at']
+
+
+# ========== Сериализаторы для Vacancy ==========
+
+class VacancySerializer(serializers.ModelSerializer):
+    """Сериализатор для модели Vacancy"""
+
+    class Meta:
+        model = Vacancy
+        fields = [
+            'id',
+            'title',
+            'company',
+            'description',
+            'url',
+            'parsed_skills',
+            'created_at'
+        ]
+        read_only_fields = ['id', 'created_at']

@@ -1,8 +1,22 @@
+import os
 from pathlib import Path
+from dotenv import load_dotenv
+
+load_dotenv()
 
 # Внимание на количество .parent (зависит от вложенности папки settings)
 # Если папка settings лежит внутри ResumeAdaptation/:
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
+
+env_file = BASE_DIR / '.env'
+if env_file.exists():
+    load_dotenv(env_file)
+    print(f"✅ .env file loaded from: {env_file}")
+else:
+    print(f"❌ .env file not found at: {env_file}")
+
+
+GROQ_API_KEY = os.getenv("GROQ_API_KEY")
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -13,6 +27,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'rest_framework',
+    'corsheaders',
 
 
     'UserApp',
@@ -20,6 +35,7 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
